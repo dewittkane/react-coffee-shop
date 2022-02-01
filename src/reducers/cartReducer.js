@@ -24,6 +24,8 @@ const cartReducer = (state, action) => {
         ...state,
         { id: action.itemId, quantity: 1 },
       ];
+    case CartTypes.REMOVE:
+      return state.filter((item) => item.id !== action.itemId);
     default: throw new Error(`invalid action type ${action.type}`);
   }
 };

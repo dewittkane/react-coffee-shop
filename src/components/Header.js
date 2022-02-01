@@ -8,13 +8,13 @@ function Header({ cart }) {
   return (
     <header>
       <h1><Link to="/">Coffee Shop</Link></h1>
-      <a
+      <Link
         className="cart"
-        href="#todo"
+        to="/cart"
       >
         <img src={CartIcon} alt="Cart" />
         <div className="badge">{cartQuantity}</div>
-      </a>
+      </Link>
     </header>
   );
 }

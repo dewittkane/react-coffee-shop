@@ -9,6 +9,7 @@ import Header from './components/Header';
 import Home from './components/Home';
 import NotFound from './components/NotFound';
 import Details from './components/Details';
+import Cart from './components/Cart';
 import { items } from './items';
 import { CartTypes, useCartReducer } from './reducers/cartReducer';
 
@@ -27,6 +28,7 @@ function App() {
           path="/details/:id"
           element={<Details addToCart={addToCart} items={items} />}
         />
+        <Route path="/cart" element={<Cart cart={cart} items={items} dispatch={dispatch} />} />
         <Route path="/" element={<Home items={items} />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
