@@ -1,12 +1,12 @@
 import { useParams } from 'react-router-dom';
+import { memo } from 'react';
 import PropTypes from 'prop-types';
 import { itemImages } from '../items';
 import './Details.css';
 import NotFound from './NotFound';
 import Thumbnail from './Thumbnail';
 
-function Details({ items }) {
-  const { id } = useParams();
+const Details = memo(({ addToCart, id, items }) => {
   const detailItem = items.find((item) => item.id === id);
   const otherItems = items.filter((item) => item.id !== id);
 
@@ -36,15 +36,24 @@ function Details({ items }) {
               Price: $
               {detailItem.price.toFixed(2)}
             </div>
+            <div>
+              <button
+                type="button"
+                onClick={() => addToCart(detailItem.id)}
+              >
+                Add to Cart
+              </button>
+            </div>
           </>
         )
           : (<NotFound />)}
       </div>
     </div>
   );
-}
+});
 
-Details.propTypes = {
+const sharedProps = {
+  addToCart: PropTypes.func.isRequired,
   items: PropTypes.arrayOf(PropTypes.shape({
     id: PropTypes.string.isRequired,
     imageId: PropTypes.string.isRequired,
@@ -53,4 +62,22 @@ Details.propTypes = {
   })).isRequired,
 };
 
-export default Details;
+Details.propTypes = {
+  ...sharedProps,
+  id: PropTypes.string.isRequired,
+};
+
+function DetailsOuter({ addToCart, items }) {
+  const { id } = useParams();
+  return (
+    <Details
+      addToCart={addToCart}
+      id={id}
+      items={items}
+    />
+  );
+}
+
+DetailsOuter.propTypes = sharedProps;
+
+export default DetailsOuter;
