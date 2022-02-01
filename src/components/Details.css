@@ -1,0 +1,27 @@
+.details-component {
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    height: calc(100vh - 100px)
+  }
+.details-sidebar {
+    flex: 0 0 200px;
+    height: 100%;
+    overflow: auto;
+    padding: 5px;
+    box-sizing: border-box;
+}
+.details-sidebar > * {
+    margin: 1px 0;
+}
+.details-component .details-box {
+    padding: 5px 20px;
+    flex: 1 1 auto;
+  }
+.details-component h2 {
+    margin: 0 0 10px 0;
+  }
+.details-component img {
+    max-width: 400px;
+    max-height: 400px;
+  }

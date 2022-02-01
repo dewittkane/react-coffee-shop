@@ -1,13 +1,15 @@
 import PropTypes from 'prop-types';
 import Thumbnail from './Thumbnail';
+import './Home.css';
 import { itemImages } from '../items';
 
 function Home({ items }) {
   return (
-    <div>
+    <div className="home-component">
       {items.map((item) => (
         <Thumbnail
           key={item.id}
+          id={item.id}
           image={itemImages[item.imageId]}
           title={item.title}
         />
