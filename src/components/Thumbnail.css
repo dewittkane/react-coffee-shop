@@ -2,12 +2,14 @@
     background: var(--dark-bg);
     border-radius: 15px;
     box-sizing: border-box;
-    display: block;
     padding: 20px;
     position: relative;
     width: 100%;
     border: none;
     cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .thumbnail-component:focus {
