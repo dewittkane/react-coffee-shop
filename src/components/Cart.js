@@ -1,14 +1,33 @@
 import './Cart.css';
+import axios from 'axios';
 import { useState, useRef, useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
+import Modal from 'react-modal';
 import { CartTypes } from '../reducers/cartReducer';
 
-// eslint-disable-next-line no-unused-vars
+const customStyles = {
+  content: {
+    top: '50%',
+    left: '50%',
+    right: 'auto',
+    bottom: 'auto',
+    marginRight: '-50%',
+    transform: 'translate(-50%, -50%)',
+    color: '#000',
+  },
+};
+
+Modal.setAppElement('#root');
+
 function Cart({ cart, items, dispatch }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
   const [zipCode, setZipCode] = useState('');
+  const [thankYouOpen, setThankYouOpen] = useState(false);
+  const [apiError, setApiError] = useState('');
   const zipRef = useRef();
+  const navigate = useNavigate();
   const removeItem = (itemId) => dispatch({ type: CartTypes.REMOVE, itemId });
   const subtractItem = (itemId) => dispatch({ type: CartTypes.SUBTRACT, itemId });
   const handleSubtractClick = (itemId, itemQty) => {
@@ -54,8 +73,55 @@ function Cart({ cart, items, dispatch }) {
     }
   };
 
+  const submitOrder = (event) => {
+    event.preventDefault();
+    axios.post('/api/orders', {
+      items: cart,
+      name,
+      phone,
+      zipCode,
+    }).then(() => {
+      dispatch({ type: CartTypes.EMPTY });
+      setThankYouOpen(true);
+    }).catch((error) => {
+      console.error(error);
+      setApiError(error?.response?.data?.error || 'Unknown Error');
+    });
+  };
+
+  const closeThankYouModal = () => {
+    setThankYouOpen(false);
+    navigate('/');
+  };
+  const closeApiErrorModal = () => {
+    setApiError('');
+    zipRef.current.focus();
+  };
+
   return (
     <div className="cart-component">
+      <Modal
+        isOpen={thankYouOpen}
+        onRequestClose={closeThankYouModal}
+        style={customStyles}
+        contentLabel="Thanks for your order"
+      >
+        <p>Thanks for your order!</p>
+        <button onClick={closeThankYouModal} type="button">
+          Return Home
+        </button>
+      </Modal>
+      <Modal
+        isOpen={!!apiError}
+        onRequestClose={closeApiErrorModal}
+        style={customStyles}
+        contentLabel="There was an error"
+      >
+        <p>There was an error submitting your order.</p>
+        <p>{ apiError }</p>
+        <p>Please try again.</p>
+        <button onClick={closeApiErrorModal} type="button">Ok</button>
+      </Modal>
       <h2>Your Cart</h2>
       {(cart.length === 0
         ? <div>Your Cart is Empty</div>
@@ -109,7 +175,7 @@ function Cart({ cart, items, dispatch }) {
               )
               : <div>Please enter your zip code to see total.</div> }
             <h3>Checkout</h3>
-            <form>
+            <form onSubmit={submitOrder}>
               <label htmlFor="name">
                 Name:
                 {/* eslint-disable jsx-a11y/no-autofocus */}

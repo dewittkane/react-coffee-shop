@@ -1,25 +1,30 @@
+import axios from 'axios';
 import {
   BrowserRouter as Router,
   Routes,
   Route,
 } from 'react-router-dom';
-import { useCallback } from 'react';
+import { useCallback, useEffect, useState } from 'react';
 import './App.css';
 import Header from './components/Header';
 import Home from './components/Home';
 import NotFound from './components/NotFound';
 import Details from './components/Details';
 import Cart from './components/Cart';
-import { items } from './items';
 import { CartTypes, useCartReducer } from './reducers/cartReducer';
 
 function App() {
   const [cart, dispatch] = useCartReducer();
+  const [items, setItems] = useState([]);
   const addToCart = useCallback(
     (itemId) => dispatch({ type: CartTypes.ADD, itemId }),
     [dispatch],
   );
-
+  useEffect(() => {
+    axios.get('/api/items')
+      .then((result) => setItems(result.data))
+      .catch(console.error);
+  }, []);
   return (
     <Router>
       <Header cart={cart} />
