@@ -5,3 +5,12 @@
   .cart-component h2 {
     margin-top: 0;
   }
+
+  .cart-component label {
+    display: block;
+  }
+  
+  .cart-component form input {
+    margin: 5px;
+    padding: 2px;
+  }
