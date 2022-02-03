@@ -1,0 +1,12 @@
+.login-component {
+    padding: 10px;
+  }
+  
+  .login-component label {
+    display: block;
+  }
+  
+  .login-component form input {
+    margin: 5px;
+    padding: 2px;
+  }

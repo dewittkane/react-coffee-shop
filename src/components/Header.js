@@ -1,6 +1,7 @@
 import { Link } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import CartIcon from '../images/cart.svg';
+import UserDetails from './UserDetails';
 import './Header.css';
 
 function Header({ cart }) {
@@ -8,6 +9,7 @@ function Header({ cart }) {
   return (
     <header>
       <h1><Link to="/">Coffee Shop</Link></h1>
+      <UserDetails />
       <Link
         className="cart"
         to="/cart"
