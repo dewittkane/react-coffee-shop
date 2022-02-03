@@ -15,7 +15,7 @@ function Header({ cart }) {
         to="/cart"
       >
         <img src={CartIcon} alt="Cart" />
-        <div className="badge">{cartQuantity}</div>
+        <div className="badge" data-testid="cart-quantity">{cartQuantity}</div>
       </Link>
     </header>
   );

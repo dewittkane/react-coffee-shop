@@ -1,4 +1,4 @@
-import { useContext, useState } from 'react';
+import { useContext, useState, useEffect } from 'react';
 import axios from 'axios';
 import Modal from 'react-modal';
 import { useNavigate } from 'react-router-dom';
@@ -17,14 +17,16 @@ const customStyles = {
   },
 };
 
-Modal.setAppElement('#root');
-
 function Login() {
   const { setUserDetails } = useContext(UserContext);
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [apiError, setApiError] = useState('');
   const navigate = useNavigate();
+
+  useEffect(() => {
+    Modal.setAppElement('#root');
+  }, []);
 
   const login = (event) => {
     event.preventDefault();

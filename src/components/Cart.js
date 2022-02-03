@@ -1,6 +1,11 @@
 import './Cart.css';
 import axios from 'axios';
-import { useState, useRef, useMemo } from 'react';
+import {
+  useState,
+  useRef,
+  useMemo,
+  useEffect,
+} from 'react';
 import { useNavigate } from 'react-router-dom';
 import PropTypes from 'prop-types';
 import Modal from 'react-modal';
@@ -18,8 +23,6 @@ const customStyles = {
   },
 };
 
-Modal.setAppElement('#root');
-
 function Cart({ cart, items, dispatch }) {
   const [name, setName] = useState('');
   const [phone, setPhone] = useState('');
@@ -28,6 +31,10 @@ function Cart({ cart, items, dispatch }) {
   const [apiError, setApiError] = useState('');
   const zipRef = useRef();
   const navigate = useNavigate();
+  useEffect(() => {
+    Modal.setAppElement('#root');
+  }, []);
+
   const removeItem = (itemId) => dispatch({ type: CartTypes.REMOVE, itemId });
   const subtractItem = (itemId) => dispatch({ type: CartTypes.SUBTRACT, itemId });
   const handleSubtractClick = (itemId, itemQty) => {
